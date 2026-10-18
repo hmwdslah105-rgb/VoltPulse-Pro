@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
-import android.os.Build
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -30,24 +29,19 @@ class MainActivity: FlutterActivity() {
         val intentFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         val batteryStatus: Intent? = registerReceiver(null, intentFilter)
 
-        // 1. الجهد (Voltage) بالملي فولت تحول إلى فولت
         val voltage = batteryStatus?.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1) ?: 0
         details["voltage"] = voltage / 1000.0
 
-        // 2. التيار (Current) بالمايكرو أمبير تحول إلى ملي أمبير
         var currentMicro = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
-        // بعض الأجهزة ترجع قيمة سالبة أثناء الشحن وقيمة موجبة أثناء التفريغ
         if (currentMicro < 0) {
             currentMicro = -currentMicro
         }
         details["current"] = currentMicro / 1000.0
 
-        // 3. درجة الحرارة
         val temp = batteryStatus?.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1) ?: 0
         details["temperature"] = temp / 10.0
 
-        // 4. السعة الفعلية المقدرة
-        details["capacity"] = 5000 // يمكن تحسينها عبر استعلام الخاصية العميقة
+        details["capacity"] = 5000
 
         return details
     }
