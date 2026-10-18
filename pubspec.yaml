@@ -1,0 +1,17 @@
+name: power_meter
+description: "A new Flutter project for measuring charging wattage."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  battery_plus: ^6.0.0
+  device_info_plus: ^10.0.0
+
+flutter:
+  uses-material-design: true
